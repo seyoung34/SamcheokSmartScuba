@@ -103,26 +103,61 @@ function CameraAnimation({ isDiving }: { isDiving: boolean }) {
   return null;
 }
 
+// export function DeepSeaScene({ isDiving }: { isDiving: boolean }) {
+//   return (
+//     <div className="absolute inset-0 w-full h-full">
+//       <Canvas camera={{ position: [0, 0, 5], fov: 75 }} style={{ background: "transparent" }}>
+//         <ambientLight intensity={0.3} />
+//         <pointLight position={[10, 10, 10]} intensity={0.5} />
+//         <pointLight position={[-10, -10, -10]} intensity={0.3} color="#5C89DD" />
+
+//         <Stars
+//           radius={50}
+//           depth={50}
+//           count={2000}
+//           factor={4}
+//           saturation={0.5}
+//           fade
+//           speed={0.5}
+//         />
+
+//         <OceanParticles />
+//         <AnimatedSphere />
+//         <CameraAnimation isDiving={isDiving} />
+
+//         <OrbitControls
+//           enableZoom={false}
+//           enablePan={false}
+//           maxPolarAngle={Math.PI / 2}
+//           minPolarAngle={Math.PI / 2}
+//           autoRotate
+//           autoRotateSpeed={0.5}
+//         />
+//       </Canvas>
+//     </div>
+//   );
+// }
+
 export function DeepSeaScene({ isDiving }: { isDiving: boolean }) {
   return (
-    <div className="absolute inset-0 w-full h-full">
+    <div
+      className="absolute inset-0 w-full h-full"
+      style={{
+        background:
+          "radial-gradient(1200px 800px at 50% 20%, rgba(46,137,228,0.18), rgba(11,18,32,1) 60%), linear-gradient(180deg, #111A2E 0%, #0B1220 55%, #050A14 100%)",
+      }}
+    >
       <Canvas camera={{ position: [0, 0, 5], fov: 75 }} style={{ background: "transparent" }}>
-        <ambientLight intensity={0.3} />
-        <pointLight position={[10, 10, 10]} intensity={0.5} />
-        <pointLight position={[-10, -10, -10]} intensity={0.3} color="#5C89DD" />
+        {/* ✅ 심해 포그 */}
+        <fog attach="fog" args={["#0B1220", 6, 28]} />
 
-        <Stars
-          radius={50}
-          depth={50}
-          count={2000}
-          factor={4}
-          saturation={0.5}
-          fade
-          speed={0.5}
-        />
+        <ambientLight intensity={0.25} />
+        <directionalLight position={[2, 8, 5]} intensity={0.6} color="#5C89DD" />
+        <pointLight position={[-10, -10, -10]} intensity={0.25} color="#1F6ED6" />
 
         <OceanParticles />
-        <AnimatedSphere />
+        {/* AnimatedSphere는 일단 꺼보고 비교 추천 */}
+        {/* <AnimatedSphere /> */}
         <CameraAnimation isDiving={isDiving} />
 
         <OrbitControls
@@ -131,7 +166,7 @@ export function DeepSeaScene({ isDiving }: { isDiving: boolean }) {
           maxPolarAngle={Math.PI / 2}
           minPolarAngle={Math.PI / 2}
           autoRotate
-          autoRotateSpeed={0.5}
+          autoRotateSpeed={0.15}
         />
       </Canvas>
     </div>

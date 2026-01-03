@@ -30,15 +30,15 @@ export default function Home() {
             transition={{ delay: 0.3, duration: 0.8 }}
             className="text-5xl md:text-7xl mb-6 tracking-tight"
           >
-            <span className="block text-foreground">Dive into the</span>
-            <span className="block text-primary mt-2">Deep Blue</span>
+            <span className="block text-foreground">Samcheok Smart Scuba</span>
+            {/* <span className="block text-primary mt-2">Deep Blue</span> */}
           </motion.h1>
 
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6, duration: 0.8 }}
-            className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-2xl mx-auto"
+            className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-3xl mx-auto "
           >
             삼척의 맑고 아름다운 바다에서 당신의 스쿠버 다이빙 여정을 시작하세요
           </motion.p>
@@ -85,7 +85,7 @@ export default function Home() {
       </div>
 
       {/* Info Cards Section */}
-      <div className="relative z-10 bg-background py-24 px-4">
+      <div className="relative py-24 px-4">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
