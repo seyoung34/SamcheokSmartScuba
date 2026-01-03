@@ -50,7 +50,7 @@ export default function Home() {
             transition={{ delay: 0.9, duration: 0.8 }}
             className="flex flex-col sm:flex-row gap-4 justify-center items-center"
           >
-            <button
+            {/* <button
               onClick={() => setIsDiving(!isDiving)}
               className="group relative px-8 py-4 bg-primary hover:bg-[#1F6ED6] text-primary-foreground rounded-lg transition-all duration-300 overflow-hidden"
             >
@@ -62,7 +62,7 @@ export default function Home() {
 
             <button className="px-8 py-4 bg-transparent border-2 border-primary text-foreground hover:bg-primary/10 rounded-lg transition-all duration-300">
               Learn More
-            </button>
+            </button> */}
           </motion.div>
         </motion.div>
 
@@ -78,7 +78,7 @@ export default function Home() {
             transition={{ repeat: Infinity, duration: 2 }}
             className="flex flex-col items-center text-muted-foreground"
           >
-            <span className="text-sm mb-2">Scroll to explore</span>
+            <span className="text-sm mb-2">Scroll</span>
             <ChevronDown size={24} />
           </motion.div>
         </motion.div>
