@@ -7,7 +7,7 @@ import DeepSeaScene from '../DeepSea/DeepSeaScene';
 export default function Home() {
 
   return (
-    <div className="relative min-h-[100lvh] overflow-x-hidden">
+    <div className="relative min-h-[120dvh] overflow-x-hidden">
 
       {/* Gradient Overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/60 pointer-events-none" />
