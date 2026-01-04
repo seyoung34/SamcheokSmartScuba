@@ -5,6 +5,9 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
 import { AxesHelper } from "three";
+import FishSchool from "./FishSchool";
+import JellyBloom from "./JellyfishBloom";
+import WreckAndShark from "./WreckAndShark";
 
 // =========================================
 // 유틸리티 및 설정
@@ -184,7 +187,6 @@ function DiveController({ depthRatio }: { depthRatio: number }) {
 
     // 4. 배경색 제어
     scene.background = currentColor;
-    console.log(`color : ${currentColor.getHexString()}`)
   });
 
   return (
@@ -271,6 +273,9 @@ export default function DeepSeaScene() {
           <OceanParticles />
           <Bubbles />
           {/* <SimpleGodRays /> */}
+          <FishSchool depthRatio={depthRatio} />
+          <JellyBloom depthRatio={depthRatio} />
+          <WreckAndShark depthRatio={depthRatio} />
 
           <OrbitControls
             enableZoom={false}
