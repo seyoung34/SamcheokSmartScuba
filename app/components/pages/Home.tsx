@@ -10,7 +10,7 @@ export default function Home() {
     <div className="relative min-h-screen overflow-hidden">
 
       {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background/50 via-transparent to-background/80 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/60 pointer-events-none" />
 
       {/* Content */}
       <div className="relative z-10 min-h-screen flex flex-col items-center justify-center px-4">
@@ -26,7 +26,7 @@ export default function Home() {
             transition={{ delay: 0.3, duration: 0.8 }}
             className="text-5xl md:text-7xl mb-6 tracking-tight"
           >
-            <span className="block text-foreground">Samcheok Smart Scuba</span>
+            <span className="block text-white">Samcheok Smart Scuba</span>
             {/* <span className="block text-primary mt-2">Deep Blue</span> */}
           </motion.h1>
 
@@ -34,12 +34,12 @@ export default function Home() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6, duration: 0.8 }}
-            className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-3xl mx-auto "
+            className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-3xl mx-auto text-white/60"
           >
-            삼척의 맑고 아름다운 바다에서 당신의 스쿠버 다이빙 여정을 시작하세요
+            한결과 함께 하는 할렐야루 스쿠버 다이빙
           </motion.p>
         </motion.div>
-        <div className="absolute top-3/4 left-1/2 transform -translate-x-1/2 text-white/50 text-center pointer-events-auto">
+        <div className="absolute top-3/4 left-1/2 transform -translate-x-1/2 text-white/50 text-center pointer-events-auto ">
           <p className="animate-bounce mb-2">↓</p>
           <p>Scroll to Dive</p>
         </div>
@@ -49,8 +49,8 @@ export default function Home() {
       <DeepSeaScene />
 
       {/* Info Cards Section */}
-      <div className="relative py-24 px-4">
-        <div className="max-w-7xl mx-auto">
+      <div className="relative py-24 px-4  ">
+        <div className="max-w-7xl mx-auto ">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -58,8 +58,8 @@ export default function Home() {
             transition={{ duration: 0.8 }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl mb-4">Why Choose Us</h2>
-            <p className="text-muted-foreground text-lg">
+            <h2 className="text-4xl md:text-5xl mb-4 text-white/70">Why Choose Us</h2>
+            <p className="text-muted-foreground text-lg text-white/70">
               전문적이고 안전한 다이빙 경험을 제공합니다
             </p>
           </motion.div>
@@ -88,11 +88,11 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.2, duration: 0.6 }}
-                className="bg-card border border-border rounded-lg p-8 hover:border-primary/50 transition-all duration-300"
+                className="bg-card border border-border rounded-lg p-8 hover:border-primary/50 transition-all duration-300 border-white/80"
               >
-                <div className="text-5xl mb-4">{item.icon}</div>
-                <h3 className="text-xl mb-3">{item.title}</h3>
-                <p className="text-muted-foreground">{item.description}</p>
+                <div className="text-5xl mb-4 ">{item.icon}</div>
+                <h3 className="text-xl mb-3 text-white/70">{item.title}</h3>
+                <p className="text-muted-foreground text-white/70">{item.description}</p>
               </motion.div>
             ))}
           </div>

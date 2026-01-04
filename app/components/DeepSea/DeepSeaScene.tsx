@@ -17,13 +17,13 @@ import DiverSprite from "./Diver";
 const lerpColor = (colorA: string, colorB: string, t: number) => {
   const cA = new THREE.Color(colorA);
   const cB = new THREE.Color(colorB);
-  return cA.lerp(cB, t);
+  return cA.lerp(cB, t == 100 ? 95 : t);
 };
 
 const CONFIG = {
   maxDepth: 100,
   surfaceColor: "#4fbaf0",
-  deepColor: "#050a14",
+  deepColor: "#0d2736",
   bubbleCount: 150,
   particleCount: 2000,
 };
@@ -36,6 +36,36 @@ type BubbleParticle = {
   scale: number;
   offset: number;
 };
+
+function DepthSmoother({
+  target,
+  onUpdate,
+  follow = 10, // 6~14 범위 추천 (클수록 빨리 따라감)
+}: {
+  target: number; // depthRatio (0~1)
+  onUpdate: (v: number) => void; // smoothDepthRatio 전달
+  follow?: number;
+}) {
+  const smoothRef = useRef(0);
+
+  // target이 바뀌어도 smoothRef는 유지되게
+  const targetRef = useRef(target);
+  useEffect(() => {
+    targetRef.current = target;
+  }, [target]);
+
+  useFrame((_, delta) => {
+    const k = 1 - Math.exp(-follow * delta); // 프레임 독립 스무딩
+    smoothRef.current = THREE.MathUtils.lerp(
+      smoothRef.current,
+      targetRef.current,
+      k
+    );
+    onUpdate(smoothRef.current);
+  });
+
+  return null;
+}
 
 // 1. Bubbles 아래에서 위로 올라오는 거품 
 function Bubbles() {
@@ -173,7 +203,6 @@ function DiveController({ depthRatio }: { depthRatio: number }) {
     // 1. 카메라 위치 제어 //카메라 이동의 필요성이 있나?
     const targetY = -depthRatio * CONFIG.maxDepth;
     camera.position.y = THREE.MathUtils.lerp(camera.position.y, targetY, 0.05);
-    console.log(`y: ${camera.position.y.toFixed(2)}, z : ${camera.position.z.toFixed(2)}`);
 
     // 2. 카메라 FOV 제어 //카메라 FOV제어의 필요성도 딱히..
     // const targetFov = 75 - depthRatio * 15;
@@ -189,6 +218,7 @@ function DiveController({ depthRatio }: { depthRatio: number }) {
 
     // 4. 배경색 제어
     scene.background = currentColor;
+    console.log(scene.background.getHexString());
   });
 
   return (
@@ -236,6 +266,7 @@ function SceneLighting({ depthRatio }: { depthRatio: number }) {
 // =========================================
 export default function DeepSeaScene() {
   const [depthRatio, setDepthRatio] = useState(0);
+  const [smoothDepthRatio, setSmoothDepthRatio] = useState(0);
   const [currentDepthMeter, setCurrentDepthMeter] = useState(0);
 
   useEffect(() => {
@@ -269,15 +300,22 @@ export default function DeepSeaScene() {
           gl={{ antialias: true, alpha: false }}
           dpr={[1, 2]}
         >
-          <DiveController depthRatio={depthRatio} />
+
+          <DepthSmoother
+            target={depthRatio}
+            onUpdate={setSmoothDepthRatio}
+            follow={10}
+          />
+
+          <DiveController depthRatio={smoothDepthRatio} />
           {/* <SceneLighting depthRatio={depthRatio} /> */}
 
           <OceanParticles />
           <Bubbles />
           {/* <SimpleGodRays /> */}
-          <FishSchool depthRatio={depthRatio} />
-          <JellyBloom depthRatio={depthRatio} />
-          <DiverSprite depthRatio={depthRatio} />
+          <FishSchool depthRatio={smoothDepthRatio} />
+          <JellyBloom depthRatio={smoothDepthRatio} />
+          <DiverSprite depthRatio={smoothDepthRatio} />
 
           {/* <OrbitControls
             enableZoom={false}
