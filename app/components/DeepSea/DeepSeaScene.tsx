@@ -6,7 +6,7 @@ import { OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
 import { AxesHelper } from "three";
 import FishSchool from "./FishSchool";
-import JellyBloom from "./JellyfishBloom";
+import JellyBloom from "./Jellyfish";
 import WreckAndShark from "./Diver";
 import DiverSprite from "./Diver";
 

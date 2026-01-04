@@ -53,7 +53,7 @@ export default function FishSchool({ depthRatio }: { depthRatio: number }) {
         m.position.x = Math.sin(t * 0.25) * 0.4;
 
         fishData.forEach((f, i) => {
-            // x 흐름 (우→좌)
+            // x 흐름 (좌-우)
             f.x += f.speed;
             if (f.x > 30) f.x = -30;
 

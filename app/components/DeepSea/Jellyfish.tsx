@@ -2,6 +2,7 @@ import { useFrame } from "@react-three/fiber";
 import { useRef, useMemo } from "react";
 import * as THREE from "three";
 import { bandAlpha, randRange } from "./utill";
+import { useTexture } from "@react-three/drei";
 
 type Jelly = {
     x: number; y: number; z: number;
@@ -10,9 +11,10 @@ type Jelly = {
     scale: number;
 };
 
-export default function JellyBloom({ depthRatio }: { depthRatio: number }) {
+export default function Jellyfish({ depthRatio }: { depthRatio: number }) {
     const meshRef = useRef<THREE.InstancedMesh>(null);
     const dummy = useMemo(() => new THREE.Object3D(), []);
+    const jellyFishTexture = useTexture("/textures/jellyfish.png");
     const count = 20;
 
     // ✅ 60m 근처에서만: center=0.60, width=0.12 (대략 48~72m 느낌)
@@ -82,9 +84,9 @@ export default function JellyBloom({ depthRatio }: { depthRatio: number }) {
             frustumCulled={false}
         >
             {/* ✅ “해파리”를 구로 두면 존재감이 약하니 약간 크게 */}
-            <sphereGeometry args={[0.7, 18, 18]} />
+            <planeGeometry args={[1.5, 1.5]} />
             <meshBasicMaterial
-                color="#EAF2FF"
+                map={jellyFishTexture}
                 transparent
                 opacity={0.35 * alpha} // ✅ 과하게 밝으면 우주 느낌 남
                 depthWrite={false}
