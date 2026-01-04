@@ -218,7 +218,7 @@ function DiveController({ depthRatio }: { depthRatio: number }) {
 
     // 4. 배경색 제어
     scene.background = currentColor;
-    console.log(scene.background.getHexString());
+
   });
 
   return (

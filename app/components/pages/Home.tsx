@@ -26,8 +26,8 @@ export default function Home() {
             transition={{ delay: 0.3, duration: 0.8 }}
             className="text-5xl md:text-7xl mb-6 tracking-tight"
           >
-            <span className="block text-white">Samcheok Smart Scuba</span>
-            {/* <span className="block text-primary mt-2">Deep Blue</span> */}
+            <span className="block text-white"><span className='text-blue-300'>S</span>amcheok <span className='text-blue-300'>S</span>mart <span className='text-blue-300'>S</span>cuba</span>
+
           </motion.h1>
 
           <motion.p
