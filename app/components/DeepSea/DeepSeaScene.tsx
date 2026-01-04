@@ -291,10 +291,10 @@ export default function DeepSeaScene() {
 
   return (
     <>
-      <div style={{ height: "500vh" }} className="pointer-events-none" />
+      <div style={{ height: "500dvh" }} className="pointer-events-none" />
 
 
-      <div className="fixed inset-0 w-full h-full z-[-1] bg-black">
+      <div className="fixed inset-0 w-full h-full z-[-1] overflow-hidden bg-black">
         <Canvas
           camera={{ position: [0, 0, 10], fov: 75 }}
           gl={{ antialias: true, alpha: false }}
