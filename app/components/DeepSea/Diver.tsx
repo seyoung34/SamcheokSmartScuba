@@ -93,7 +93,7 @@ export default function DiverSprite({
         const targetY = THREE.MathUtils.lerp(yTop, yBottom, depthRatio);
         // 2) 프레임 독립적 스무딩 (delta 고려)
         // 값이 클수록 더 빨리 따라감. 6~12 정도로 시작 추천
-        const follow = 8;
+        const follow = 3;
         const k = 1 - Math.exp(-follow * delta);
 
         smoothYRef.current = THREE.MathUtils.lerp(smoothYRef.current, targetY, k);
