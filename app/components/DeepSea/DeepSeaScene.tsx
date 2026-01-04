@@ -277,17 +277,7 @@ export default function DeepSeaScene() {
           {/* <SimpleGodRays /> */}
           <FishSchool depthRatio={depthRatio} />
           <JellyBloom depthRatio={depthRatio} />
-          {/* <DiverSprite
-            depthRatio={depthRatio}
-            maxDepth={CONFIG.maxDepth}
-            textureUrl="/textures/diver.jpg"
-            cols={8}
-            rows={1}
-            fps={10}
-            size={2.8}
-            x={2.5}
-            z={-4}
-          /> */}
+          <DiverSprite depthRatio={depthRatio} />
 
           {/* <OrbitControls
             enableZoom={false}

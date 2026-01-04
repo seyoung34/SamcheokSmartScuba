@@ -31,13 +31,12 @@ function FishBatch({ depthRatio, alpha, count, texture, seedBase }: BatchProps) 
     const fishData = useMemo<Fish[]>(() => {
         const arr: Fish[] = [];
         for (let i = 0; i < count; i++) {
-            const dir = randRange(i + seedBase, 0, 1, 99) > 0.5 ? 1 : -1;
             arr.push({
                 x: randRange(i + seedBase, -25, 25, 1),
                 y: randRange(i + seedBase, -50, 5, 2),
                 z: randRange(i + seedBase, -18, 8, 3),
                 speed: randRange(i + seedBase, 0.02, 0.07, 4),
-                dir,
+                dir: randRange(i + seedBase, 0, 1, 99) > 0.5 ? 1 : -1,
                 wobble: randRange(i + seedBase, 0.8, 2.2, 5),
                 scale: randRange(i + seedBase, 0.6, 1.4, 6),
                 rotJitter: randRange(i + seedBase, -0.08, 0.08, 7),
@@ -111,11 +110,10 @@ function FishBatch({ depthRatio, alpha, count, texture, seedBase }: BatchProps) 
 }
 
 export default function FishSchool({ depthRatio }: { depthRatio: number }) {
-    // 30m 근처 활성 (중심 0.30, 폭 0.12면 대략 18m~42m 느낌)
-    // 너는 넓게 쓰고 싶어서 0.3, 0.3로 했는데 너무 길게 보이면 폭만 줄이면 됨.
+
     const alpha = bandAlpha(depthRatio, 0.30, 0.3);
 
-    // ✅ 여러 텍스처 한 번에 로드
+    // 여러 텍스처 한 번에 로드
     const textures = useTexture([
         "/textures/fish1.png",
         "/textures/fish2.png",
@@ -123,13 +121,13 @@ export default function FishSchool({ depthRatio }: { depthRatio: number }) {
     ]) as THREE.Texture[];
 
     // 텍스처 공통 설정(선택)
-    useMemo(() => {
-        textures.forEach((t) => {
-            t.minFilter = THREE.LinearFilter;
-            t.magFilter = THREE.LinearFilter;
-            t.needsUpdate = true;
-        });
-    }, [textures]);
+    // useMemo(() => {
+    //     textures.forEach((t) => {
+    //         t.minFilter = THREE.LinearFilter;
+    //         t.magFilter = THREE.LinearFilter;
+    //         t.needsUpdate = true;
+    //     });
+    // }, [textures]);
 
     // 종류별 마릿수 분배
     const total = 130;
