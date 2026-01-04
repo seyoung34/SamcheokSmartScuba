@@ -291,7 +291,7 @@ export default function DeepSeaScene() {
 
   return (
     <>
-      <div style={{ height: "500dvh" }} className="pointer-events-none" />
+      <div style={{ height: "500lvh" }} className="pointer-events-none" />
 
 
       <div className="fixed inset-0 w-full h-full z-[-1] overflow-hidden bg-black">
