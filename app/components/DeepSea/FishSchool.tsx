@@ -27,7 +27,7 @@ export default function FishSchool({ depthRatio }: { depthRatio: number }) {
         for (let i = 0; i < count; i++) {
             arr.push({
                 x: randRange(i, -25, 25, 1),
-                y: randRange(i, -25, 5, 2),
+                y: randRange(i, -50, 5, 2),
                 z: randRange(i, -18, 8, 3),
                 speed: randRange(i, 0.03, 0.08, 4),
                 wobble: randRange(i, 0.8, 2.2, 5),

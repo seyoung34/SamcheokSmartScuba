@@ -7,7 +7,8 @@ import * as THREE from "three";
 import { AxesHelper } from "three";
 import FishSchool from "./FishSchool";
 import JellyBloom from "./JellyfishBloom";
-import WreckAndShark from "./WreckAndShark";
+import WreckAndShark from "./Diver";
+import DiverSprite from "./Diver";
 
 // =========================================
 // 유틸리티 및 설정
@@ -170,8 +171,9 @@ function DiveController({ depthRatio }: { depthRatio: number }) {
     const scene = state.scene;
 
     // 1. 카메라 위치 제어 //카메라 이동의 필요성이 있나?
-    // const targetY = -depthRatio * CONFIG.maxDepth;
-    // camera.position.y = THREE.MathUtils.lerp(camera.position.y, targetY, 0.05); 
+    const targetY = -depthRatio * CONFIG.maxDepth;
+    camera.position.y = THREE.MathUtils.lerp(camera.position.y, targetY, 0.05);
+    console.log(`y: ${camera.position.y.toFixed(2)}, z : ${camera.position.z.toFixed(2)}`);
 
     // 2. 카메라 FOV 제어 //카메라 FOV제어의 필요성도 딱히..
     // const targetFov = 75 - depthRatio * 15;
@@ -275,19 +277,29 @@ export default function DeepSeaScene() {
           {/* <SimpleGodRays /> */}
           <FishSchool depthRatio={depthRatio} />
           <JellyBloom depthRatio={depthRatio} />
-          <WreckAndShark depthRatio={depthRatio} />
+          {/* <DiverSprite
+            depthRatio={depthRatio}
+            maxDepth={CONFIG.maxDepth}
+            textureUrl="/textures/diver.jpg"
+            cols={8}
+            rows={1}
+            fps={10}
+            size={2.8}
+            x={2.5}
+            z={-4}
+          /> */}
 
-          <OrbitControls
+          {/* <OrbitControls
             enableZoom={false}
             enablePan={false}
-            enableRotate={true}
+            enableRotate={false}
             maxPolarAngle={Math.PI / 1.8}
             minPolarAngle={Math.PI / 2.2}
             maxAzimuthAngle={Math.PI / 6}
             minAzimuthAngle={-Math.PI / 6}
             rotateSpeed={0.2}
-            enableDamping
-          />
+            enableDamping={false}
+          /> */}
 
           {/* <axesHelper args={[5]} /> */}
 
