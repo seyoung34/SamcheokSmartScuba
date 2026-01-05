@@ -20,6 +20,10 @@ const lerpColor = (colorA: string, colorB: string, t: number) => {
   return cA.lerp(cB, t == 100 ? 95 : t);
 };
 
+type DeepSeaSceneProps = {
+  onDepthGateChange?: (isOver: boolean, meter: number) => void;
+};
+
 const CONFIG = {
   maxDepth: 100,
   surfaceColor: "#4fbaf0",
@@ -264,10 +268,26 @@ function SceneLighting({ depthRatio }: { depthRatio: number }) {
 // =========================================
 // 메인 페이지 컴포넌트
 // =========================================
-export default function DeepSeaScene() {
+export default function DeepSeaScene({ onDepthGateChange }: DeepSeaSceneProps) {
   const [depthRatio, setDepthRatio] = useState(0);
   const [smoothDepthRatio, setSmoothDepthRatio] = useState(0);
   const [currentDepthMeter, setCurrentDepthMeter] = useState(0);
+
+  // ✅ gate 상태를 기억해서 “변화할 때만” 콜백 호출
+  const gateRef = useRef<boolean>(false);
+
+  const handleSmoothDepthUpdate = (v: number) => {
+    setSmoothDepthRatio(v);
+
+    const meter = Math.round(v * CONFIG.maxDepth);
+    const isOver = meter >= 50;
+
+    // 상태가 바뀔 때만 콜백 호출 (스팸 방지)
+    if (gateRef.current !== isOver) {
+      gateRef.current = isOver;
+      onDepthGateChange?.(isOver, meter);
+    }
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -304,7 +324,7 @@ export default function DeepSeaScene() {
 
           <DepthSmoother
             target={depthRatio}
-            onUpdate={setSmoothDepthRatio}
+            onUpdate={handleSmoothDepthUpdate}
             follow={10}
           />
 

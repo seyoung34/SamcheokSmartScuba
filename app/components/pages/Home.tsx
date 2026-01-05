@@ -1,10 +1,70 @@
 "use client";
 
-import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import DeepSeaScene from '../DeepSea/DeepSeaScene';
 
+export function DepthOverlay({
+  meter,
+  title = "안내",
+  message = "이 지점에서 이벤트가 발생합니다.",
+  onClose,
+}: {
+  meter: number;
+  title?: string;
+  message?: string;
+  onClose: () => void;
+}) {
+  return (
+    <div className="fixed inset-0 z-40">
+      {/* dim */}
+      <motion.button
+        type="button"
+        aria-label="닫기"
+        className=""
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.18 }}
+        onClick={onClose}
+      />
+
+      {/* card */}
+      <motion.div
+        className="absolute left-1/2 top-[28%] -translate-x-1/2 w-[min(92vw,480px)]"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: 10 }}
+        transition={{ duration: 0.22, ease: "easeOut" }}
+      >
+        <div className="rounded-xl border border-white/15 px-4 py-4 shadow-lg">
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <div className="text-xs text-white/60">DEPTH {meter}m</div>
+              <div className="mt-1 text-base font-semibold text-white">{title}</div>
+            </div>
+
+            <button
+              onClick={onClose}
+              className="text-sm text-white/70 hover:text-white transition"
+            >
+              닫기
+            </button>
+          </div>
+
+          <p className="mt-3 text-sm leading-relaxed text-white/75">{message}</p>
+        </div>
+      </motion.div>
+    </div>
+  );
+}
+
+
+
 export default function Home() {
+
+  const [showOverlay, setShowOverlay] = useState(false);
+  const [meter, setMeter] = useState(0);
 
   return (
     <div className="relative min-h-[120dvh] overflow-x-hidden">
@@ -46,7 +106,21 @@ export default function Home() {
       </div>
 
       {/* 3D Background */}
-      <DeepSeaScene />
+      <DeepSeaScene
+        onDepthGateChange={(isOver, m) => {
+          setMeter(m);
+          setShowOverlay(isOver);
+        }}
+      />
+
+      <AnimatePresence>
+        {showOverlay && (
+          <DepthOverlay
+            meter={meter}
+            onClose={() => setShowOverlay(false)}
+          />
+        )}
+      </AnimatePresence>
 
       {/* Info Cards Section */}
       <div className="relative py-24 px-4  ">
