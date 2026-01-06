@@ -307,7 +307,7 @@ export default function Home() {
             </span>
 
             {/* 모바일 */}
-            <motion.span className="md:hidden flex flex-col space-y-4">
+            <motion.span className="md:hidden flex flex-col space-y-4 items-start">
               {["amcheok", "mart", "cuba"].map((word, i) => (
                 <motion.span
                   key={word}
