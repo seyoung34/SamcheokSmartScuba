@@ -20,9 +20,32 @@ const lerpColor = (colorA: string, colorB: string, t: number) => {
   return cA.lerp(cB, t == 100 ? 95 : t);
 };
 
-type DeepSeaSceneProps = {
-  onDepthGateChange?: (isOver: boolean, meter: number) => void;
+type Props = {
+  onOverlaysChange?: (activeIds: string[], meter: number) => void;
 };
+
+type DepthRange = { min: number; max: number };
+
+type OverlayTrigger = {
+  id: string;
+  range: DepthRange;     // 예: {min: 30, max: 50}
+  priority?: number;     // 겹칠 때 정렬용(옵션)
+};
+
+
+const OVERLAY_TRIGGERS: OverlayTrigger[] = [
+  { id: "1", range: { min: 20, max: 40 } },
+  { id: "2", range: { min: 55, max: 70 } },
+  { id: "3", range: { min: 82, max: 92 } },
+
+];
+
+function getActiveOverlayIds(meter: number) {
+  return OVERLAY_TRIGGERS
+    .filter(t => meter >= t.range.min && meter <= t.range.max)
+    .sort((a, b) => (b.priority ?? 0) - (a.priority ?? 0))
+    .map(t => t.id);
+}
 
 const CONFIG = {
   maxDepth: 100,
@@ -268,25 +291,16 @@ function SceneLighting({ depthRatio }: { depthRatio: number }) {
 // =========================================
 // 메인 페이지 컴포넌트
 // =========================================
-export default function DeepSeaScene({ onDepthGateChange }: DeepSeaSceneProps) {
+export default function DeepSeaScene({ onOverlaysChange }: Props) {
   const [depthRatio, setDepthRatio] = useState(0);
   const [smoothDepthRatio, setSmoothDepthRatio] = useState(0);
   const [currentDepthMeter, setCurrentDepthMeter] = useState(0);
 
-  // ✅ gate 상태를 기억해서 “변화할 때만” 콜백 호출
-  const gateRef = useRef<boolean>(false);
-
   const handleSmoothDepthUpdate = (v: number) => {
     setSmoothDepthRatio(v);
 
-    const meter = Math.round(v * CONFIG.maxDepth);
-    const isOver = meter >= 50;
+    // const meter = Math.round(v * CONFIG.maxDepth);
 
-    // 상태가 바뀔 때만 콜백 호출 (스팸 방지)
-    if (gateRef.current !== isOver) {
-      gateRef.current = isOver;
-      onDepthGateChange?.(isOver, meter);
-    }
   };
 
   useEffect(() => {
@@ -299,8 +313,16 @@ export default function DeepSeaScene({ onDepthGateChange }: DeepSeaSceneProps) {
       let ratio = scrollRange > 0 ? scrollY / scrollRange : 0;
       ratio = Math.min(Math.max(ratio, 0), 1);
 
+      const meter = Math.round(ratio * CONFIG.maxDepth);
+
       setDepthRatio(ratio);
-      setCurrentDepthMeter(Math.round(ratio * CONFIG.maxDepth));
+      setCurrentDepthMeter(meter);
+
+      if (onOverlaysChange) {
+        const active = getActiveOverlayIds(meter);
+        onOverlaysChange(active, meter);
+      }
+
     };
 
     window.addEventListener("scroll", handleScroll);
